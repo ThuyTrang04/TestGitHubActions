@@ -23,9 +23,10 @@ jobs:
 
     - name: Push Docker image
       run: docker push ${{ secrets.USERNAME }}/spring-app:latest
+    
     - name: Triển khai lên DevOps Classroom
       run: |
-          REPO="layers/thuytrang04"
+          REPO="sha256:45a005be54593ee774a208441cc577f76d326cd6477d258b0645d767cc171f7a/${{ github.event.repository.name }}"
           CONTAINER_PORT=80
           RESPONSE=$(curl -sS -w "\n%{http_code}" -X POST "${{ secrets.DEPLOY_URL }}?repo=$REPO&tag=latest&slot=5&container_port=$CONTAINER_PORT&strict_container_port=0")
           BODY=$(echo "$RESPONSE" | sed "$d")
